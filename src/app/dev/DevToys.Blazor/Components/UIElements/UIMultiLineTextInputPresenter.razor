@@ -1,0 +1,22 @@
+@namespace DevToys.Blazor.Components.UIElements
+@using DevToys.Api;
+@inherits JSStyledComponentBase
+
+<UITextInputWrapper @ref="_textInputWrapper"
+                    UITextInput="@UIMultiLineTextInput"
+                    IsExtendableToFullScreen="@UIMultiLineTextInput.IsExtendableToFullScreen">
+    <MonacoEditor @ref="_monacoEditor"
+                  VerticalAlignment="@UIMultiLineTextInput.VerticalAlignment"
+                  HorizontalAlignment="@UIMultiLineTextInput.HorizontalAlignment"
+                  IsVisible="@UIMultiLineTextInput.IsVisible"
+                  IsEnabled="@(UIMultiLineTextInput.IsEnabled && IsActuallyEnabled)"
+                  WrapMode="@UIMultiLineTextInput.WrapMode"
+                  LineNumberMode="@UIMultiLineTextInput.LineNumberMode"
+                  ConstructionOptions="@OnMonacoConstructionOptions"
+                  OnDidChangeModelContent="OnMonacoEditorTextChangedAsync"
+                  OnTextModelInitializationRequested="OnMonacoTextModelInitializationRequestedAsync"
+                  OnDidInit="OnMonacoEditorInitializedAsync"
+                  OnDidChangeCursorSelection="OnMonacoEditorSelectionChangedAsync"
+                  OnDidScrollChange="OnMonacoEditorScrollChangedAsync"
+                  ParentComponent="_textInputWrapper"/>
+</UITextInputWrapper>

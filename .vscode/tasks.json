@@ -1,0 +1,134 @@
+{
+    "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "configuration",
+            "type": "pickString",
+            "default": "Debug",
+            "description": "The Build Configuration",
+            "options": [
+                "Debug",
+                "Release"
+            ]
+        }
+    ],
+    "tasks": [
+        {
+            "label": "Build DevToys CLI",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "src/app/dev/platforms/desktop/DevToys.CLI/DevToys.CLI.csproj",
+                "-c:${input:configuration}",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "Build DevToys MacOS",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "src/DevToys-MacOS.sln",
+                "-c:${input:configuration}",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "Build DevToys Windows",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "src/DevToys-Windows.sln",
+                "-c:${input:configuration}",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "Build DevToys Linux",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "build",
+                "src/DevToys-Linux.sln",
+                "-c:${input:configuration}",
+                // Do not generate summary otherwise it leads to duplicate errors in Problems panel
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "Run DevToys Linux",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "src/app/dev/platforms/desktop/DevToys.Linux",
+            ],
+            "group": {
+                "kind": "none",
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "Run DevToys MacOS",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "src/app/dev/platforms/desktop/DevToys.MacOS",
+            ],
+            "group": {
+                "kind": "none",
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": ["$msCompile"]
+        },
+        {
+            "label": "Run DevToys Windows",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "src/app/dev/platforms/desktop/DevToys.Windows",
+            ],
+            "group": {
+                "kind": "none",
+            },
+            // Use the standard MS compiler pattern to detect errors, warnings and infos
+            "problemMatcher": ["$msCompile"]
+        }
+    ]
+}

@@ -1,0 +1,101 @@
+@namespace DevToys.Blazor.Pages.SubPages
+@using DevToys.Blazor.Components.UIElements
+@inherits MefComponentBase
+
+<ScrollViewer @ref=_scrollViewer
+              Class="entrance-theme-transition tool-page-content"
+              IsScrollable="@(!IsInFullScreenMode && ViewModel.ToolView is not null && ViewModel.ToolView.IsScrollable)">
+    @RenderToolWithHeader(true)
+</ScrollViewer>
+
+@code {
+    private RenderFragment<bool> RenderToolWithHeader { get; set; } = default!;
+
+    protected override Task OnInitializedAsync()
+    {
+        UIDialogService.DialogContent = (__builder) =>
+        {
+            @if (ViewModel.ToolView?.CurrentOpenedDialog is not null
+                   && ViewModel.ToolView?.CurrentOpenedDialog.DialogContent is not null)
+            {
+                <UIElementPresenter UIElement="@ViewModel.ToolView.CurrentOpenedDialog.DialogContent" />
+            }
+        };
+
+        UIDialogService.FooterContent = (__builder) =>
+        {
+            @if (ViewModel.ToolView?.CurrentOpenedDialog is not null)
+            {
+                if (ViewModel.ToolView?.CurrentOpenedDialog.FooterContent is not null)
+                {
+                    <UIElementPresenter UIElement="@ViewModel.ToolView.CurrentOpenedDialog.FooterContent" />
+                }
+                else
+                {
+                    <StackPanel Orientation="UIOrientation.Horizontal" HorizontalAlignment="UIHorizontalAlignment.Right">
+                        <Button Appearance="ButtonAppearance.Accent"
+                                @onclick="@ViewModel.ToolView!.CurrentOpenedDialog.Close">
+                            <TextBlock Text="@Localization.Strings.ToolPage.ToolPage.Ok" />
+                        </Button>
+                    </StackPanel>
+                }
+            }
+        };
+
+        RenderToolWithHeader = (bool isScrollable) => (__builder) =>
+        {
+            <Grid RowSpacing="12"
+                  Rows="@(new List<UIGridLength>
+                    {
+                        UIGridLength.Auto,
+                        new UIGridLength(1, UIGridUnitType.Fraction)
+                    })"
+                  ColumnSpacing="6"
+                  Columns="@(new List<UIGridLength>
+                    {
+                        new UIGridLength(1, UIGridUnitType.Fraction),
+                        UIGridLength.Auto
+                    })">
+
+                <GridCell Row="0" Column="0">
+                    <TextBlock IsVisible="@(!WindowService.IsCompactOverlayMode)"
+                               Appearance="@TextBlockAppearance.Title"
+                               Style="font-size: 24px !important"
+                               Text="@ViewModel.HeaderText" />
+                </GridCell>
+                <GridCell Row="0"
+                          Column="1">
+                    <StackPanel Wrap="false"
+                                IsVisible="@(!WindowService.IsCompactOverlayMode)">
+                        <Button IsVisible="@ViewModel.IsSelectedMenuItemSupportFavorite"
+                                Appearance="ButtonAppearance.Stealth"
+                                @onclick="@OnToggleFavorite">
+                            <StackPanel>
+                                <FontIcon Glyph="@(ViewModel.IsSelectedMenuItemAFavoriteTool ? '\uF71A' : '\uF70F')" />
+                                <TextBlock Text="@ViewModel.GetFavoriteButtonText(ViewModel.IsSelectedMenuItemAFavoriteTool)" />
+                            </StackPanel>
+                        </Button>
+                        <Button IsVisible="@Debugger.IsAttached"
+                                Appearance="ButtonAppearance.Stealth"
+                                ToolTip="Hot reload"
+                                @onclick="@OnHotReloadButtonClick">
+                            <FontIcon Glyph="@('\uEF68')" Style="color: red;" />
+                        </Button>
+                    </StackPanel>
+                </GridCell>
+
+                <GridCell Row="1" ColumnSpan="2">
+                    <FullScreenContainer @ref=_fullScreenContainer
+                                         IsInFullScreenModeChanged="@OnIsInFullScreenModeChanged">
+                        @if (ViewModel.ToolView is not null && ViewModel.ToolView.RootElement is not null)
+                        {
+                            <UIElementPresenter UIElement="@ViewModel.ToolView.RootElement" />
+                        }
+                    </FullScreenContainer>
+                </GridCell>
+            </Grid>
+        };
+
+        return base.OnInitializedAsync();
+    }
+}

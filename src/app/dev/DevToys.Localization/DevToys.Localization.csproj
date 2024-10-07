@@ -1,0 +1,97 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>$(NetCore)</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup>
+    <CompilerVisibleProperty Include="MSBuildProjectFullPath" />
+    <CompilerVisibleProperty Include="RootNamespace" />
+    <CompilerVisibleProperty Include="DefaultLanguage" />
+    <CompilerVisibleProperty Include="OutputType" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Common" />
+    <PackageReference Include="CommunityToolkit.Diagnostics" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="System.ComponentModel.Composition" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Strings\FirstStartDialog\FirstStartDialog.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FirstStartDialog.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\InfoBar\InfoBar.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InfoBar.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\MainWindow\MainWindow.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MainWindow.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\TextBox\TextBox.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TextBox.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\ToggleSwitch\ToggleSwitch.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToggleSwitch.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\ToolGroupPage\ToolGroupPage.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToolGroupPage.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\ToolPage\ToolPage.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ToolPage.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\UIDataGrid\UIDataGrid.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UIDataGrid.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\UIFileSelectorPresenter\UIFileSelectorPresenter.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UIFileSelectorPresenter.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\UIImageViewer\UIImageViewer.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UIImageViewer.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\UITextInputWrapper\UITextInputWrapper.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UITextInputWrapper.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Strings\WhatsNewDialog\WhatsNewDialog.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WhatsNewDialog.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="**\*.resx" />
+    <AdditionalFiles Include="**\*.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </AdditionalFiles>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="$(RepoRoot)src\generators\ResxHelperGenerator\bin\netstandard2.0\ResxHelperGenerator.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DevToys.Api\DevToys.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Update="Strings\MainWindow\MainWindow.resx">
+      <LastGenOutput>MainWindow.Designer.cs</LastGenOutput>
+    </AdditionalFiles>
+  </ItemGroup>
+</Project>

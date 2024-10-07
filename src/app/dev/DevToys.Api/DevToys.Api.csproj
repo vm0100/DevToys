@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>$(NetCore)</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- NuGet package -->
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>0.0.0-preview.0</Version>
+    <Authors>veler,btiteux</Authors>
+    <Description>SDK for developing extensions for DevToys 2.0 and higher</Description>
+    <PackageProjectUrl>https://devtoys.app</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DevToys-app/DevToys</RepositoryUrl>
+    <PackageTags>devtoys-app</PackageTags>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>Icon-Windows-Linux.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Common" />
+    <PackageReference Include="CommunityToolkit.Diagnostics" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="OneOf" />
+    <PackageReference Include="System.ComponentModel.Composition" />
+    <PackageReference Include="SixLabors.ImageSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="$(AssemblyName).props" Pack="true" PackagePath="build" />
+    <None Include="$(AssemblyName).targets" Pack="true" PackagePath="build" />
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="$(RepoRoot)LICENSE.md" Link="LICENSE.md" Pack="true" PackagePath="\" />
+    <None Include="$(RepoRoot)assets\logo\Windows-Linux\Stable\Icon-Windows-Linux.png" Link="Icon-Windows-Linux.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Strings\ApiText\ApiText.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ApiText.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Strings\ApiText\ApiText.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ApiText.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

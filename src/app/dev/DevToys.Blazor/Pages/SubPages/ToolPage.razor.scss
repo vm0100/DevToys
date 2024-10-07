@@ -1,0 +1,15 @@
+.tool-page {
+    &-content {
+        padding: 40px;
+        height: inherit;
+    }
+}
+
+// Compact mode
+div[data-compactmode] {
+    .tool-page {
+        &-content {
+            padding: 8px 16px;
+        }
+    }
+}

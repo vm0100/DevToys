@@ -1,0 +1,137 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>$(NetCore)</TargetFramework>
+    <RootNamespace>DevToys.Blazor</RootNamespace>
+    <EnableDefaultCssItems>false</EnableDefaultCssItems>
+    <TypeScriptTarget>ES6</TypeScriptTarget>
+
+    <!-- Only needed on Mac? -->
+    <PrepareForBuildDependsOn>CompileTypeScript;GetTypeScriptOutputForPublishing;$(PrepareForBuildDependsOn)</PrepareForBuildDependsOn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Markdig" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NuGet.Packaging" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevToys.Api\DevToys.Api.csproj" />
+    <ProjectReference Include="..\DevToys.Business\DevToys.Business.csproj" />
+    <ProjectReference Include="..\DevToys.Core\DevToys.Core.csproj" />
+    <ProjectReference Include="..\DevToys.Localization\DevToys.Localization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- TypeScript -->
+    <ConfigFiles Include="tsconfig.json" />
+    <Content Update="tsconfig.json" PublishFolderType="None" />
+    <Content Update="package.json" PublishFolderType="None" ExcludeFromBundleResources="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="node_modules" />
+    <TypeScriptCompile Remove="node_modules\**" />
+    <TypeScriptCompile Remove="wwwroot\lib\monaco-editor\**\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\..\..\assets\font\DevToys-Tools-Icons.ttf" Link="Assets\fonts\DevToys-Tools-Icons.ttf">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\changelog.md" />
+    <EmbeddedResource Include="Assets\fonts\FluentSystemIcons-Regular.ttf">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\samples\json-sample.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Embed HTML CSS JS -->
+    <EmbeddedResource Include="Pages\**\*.js" />
+    <EmbeddedResource Include="Components\**\*.js" />
+    <EmbeddedResource Include="wwwroot\**\*" />
+
+    <!-- Remove StaticWebAsset -->
+    <StaticWebAsset Remove="\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="BuiltInGroups\Groups.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Groups.resx</DependentUpon>
+    </Compile>
+    <Compile Update="BuiltInTools\ExtensionsManager\ExtensionsManager.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ExtensionsManager.resx</DependentUpon>
+    </Compile>
+    <Compile Update="BuiltInTools\Settings\Settings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.resx</DependentUpon>
+    </Compile>
+    <Compile Update="BuiltInTools\SupportDevelopment\SupportDevelopment.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SupportDevelopment.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="BuiltInGroups\Groups.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Groups.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="BuiltInTools\ExtensionsManager\ExtensionsManager.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExtensionsManager.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="BuiltInTools\Settings\Settings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="BuiltInTools\SupportDevelopment\SupportDevelopment.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SupportDevelopment.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <!-- Target ran on `dotnet restore -p:RestoreNpm=true` -->
+  <Target Name="NodeJsRestoreTarget" AfterTargets="_GenerateRestoreProjectSpec" Condition="$(RestoreNpm) == 'true'">
+    <!-- Verify that Node.JS is installed. -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+
+    <!-- Restore Node.JS dependencies. -->
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(ProjectDir)" Command="npm install" />
+  </Target>
+
+  <!-- Build all the SCSS and TS whenever the SCSS and TS files are newer than the generated CSS and JS files. -->
+  <ItemGroup>
+    <SCSSFiles Include="**\*.scss" />
+    <TSFiles Include="**\*.ts" />
+    <CSSFiles Include="**\*.g.css" />
+    <JSFiles Include="**\*.g.js" />
+  </ItemGroup>
+  <Target Name="GulpPrecompileTarget"
+          AfterTargets="CompileTypeScriptWithTSConfig"
+          Inputs="@(SCSSFiles);@(TSFiles)"
+          Outputs="@(CSSFiles);@(JSFiles)">
+    <Message Importance="high" Text="Generating CSS and JavaScript..." />
+    <Exec WorkingDirectory="$(ProjectDir)" Command="node_modules\.bin\gulp devtoysJavaScript" />
+    <Exec WorkingDirectory="$(ProjectDir)" Command="node_modules\.bin\gulp devtoysSass" />
+  </Target>
+
+</Project>

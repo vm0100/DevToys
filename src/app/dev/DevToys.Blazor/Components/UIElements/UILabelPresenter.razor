@@ -1,0 +1,13 @@
+@namespace DevToys.Blazor.Components.UIElements
+@using DevToys.Api;
+@inherits ComponentBase
+
+<TextBlock id="@UILabel.Id"
+           IsVisible="@UILabel.IsVisible"
+           IsEnabled="@UILabel.IsEnabled"
+           HorizontalAlignment="@UILabel.HorizontalAlignment"
+           VerticalAlignment="@UILabel.VerticalAlignment"
+           Text="@UILabel.Text"
+           NoWrap="@(!UILabel.AutoWrap)"
+           CanTrim="@(!UILabel.AutoWrap)"
+           Appearance="@Appearance" />

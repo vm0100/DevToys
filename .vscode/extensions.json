@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+      "ms-dotnettools.csdevkit",
+      "eamodio.gitlens",
+      "editorconfig.editorconfig",
+      "github.copilot",
+      "github.vscode-pull-request-github",
+      "christian-kohler.path-intellisense",
+      "kevin-chatham.aspnetcorerazor-html-css-class-completion",
+      "vscode-icons-team.vscode-icons",
+      "tintoy.msbuild-project-tools",
+      "ms-azure-devops.azure-pipelines",
+      "spmeesseman.vscode-taskexplorer"
+    ]
+}

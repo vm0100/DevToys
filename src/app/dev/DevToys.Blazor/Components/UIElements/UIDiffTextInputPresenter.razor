@@ -1,0 +1,57 @@
+@namespace DevToys.Blazor.Components.UIElements
+@using DevToys.Api;
+@inherits JSStyledComponentBase
+
+<Grid id="@ExtendedId"
+      Class="ui-text-input-wrapper"
+      IsVisible="@UIDiffTextInput.IsVisible"
+      IsEnabled="@(UIDiffTextInput.IsEnabled && IsActuallyEnabled)"
+      HorizontalAlignment="@(_isInFullScreenMode ? UIHorizontalAlignment.Stretch : UIDiffTextInput.HorizontalAlignment)"
+      VerticalAlignment="@(_isInFullScreenMode ? UIVerticalAlignment.Stretch : UIDiffTextInput.VerticalAlignment)"
+      RowSpacing="6"
+      Rows="@(new List<UIGridLength>
+        {
+            UIGridLength.Auto,
+            new UIGridLength(1, UIGridUnitType.Fraction)
+        })"
+      ColumnSpacing="6"
+      Columns="@(new List<UIGridLength>
+        {
+            new UIGridLength(1, UIGridUnitType.Fraction),
+            UIGridLength.Auto
+        })">
+    <GridCell Row="0" Column="0">
+        <Grid RowSpacing="0"
+              Rows="@(new List<UIGridLength>
+                {
+                    new UIGridLength(1, UIGridUnitType.Fraction),
+                    new UIGridLength(20, UIGridUnitType.Pixel)
+                })">
+            <GridCell Row="1">
+                <TextBlock id="@(ExtendedId + "-title")"
+                           Text="@UIDiffTextInput.Title"
+                           NoWrap="true"
+                           CanTrim="true" />
+            </GridCell>
+        </Grid>
+    </GridCell>
+    <GridCell Row="0"
+              Column="1">
+        <StackPanel Wrap="false">
+            @if (@UIDiffTextInput.IsExtendableToFullScreen)
+            {
+                <Button @ref=_toggleFullScreenButton
+                        ToolTip="@(_isInFullScreenMode ? DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.ShrinkButtonToolTip : DevToys.Localization.Strings.UITextInputWrapper.UITextInputWrapper.ExtendButtonToolTip)"
+                        @onclick="@OnToggleFullScreenButtonClickAsync">
+                    <FontIcon Glyph="@(_isInFullScreenMode ? '\uF165' : '\uF15F')" />
+                </Button>
+            }
+        </StackPanel>
+    </GridCell>
+    <GridCell Row="1" Column="0" ColumnSpan="2">
+        <MonacoEditorDiff @ref="_monacoEditor"
+                          ConstructionOptions="@OnMonacoConstructionOptions"
+                          OnTextModelInitializationRequested="OnMonacoTextModelInitializationRequestedAsync"
+                          OnDidInit="@OnMonacoEditorInitializedAsync" />
+    </GridCell>
+</Grid>

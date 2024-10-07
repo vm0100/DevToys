@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "*.csproj": "msbuild",
+        "*.globalconfig": "ini",
+        "*.manifest": "xml",
+        "*.nuspec": "xml",
+        "*.projitems": "msbuild",
+        "*.props": "msbuild",
+        "*.resx": "xml",
+        "*.ruleset": "xml",
+        "*.settings": "xml",
+        "*.shproj": "msbuild",
+        "*.slnf": "json",
+        "*.targets": "msbuild",
+        "*.xlf": "xml",
+        "*.yml": "azure-pipelines"
+    },
+    "emmet.includeLanguages": {
+        "aspnetcorerazor": "html"
+    }
+}

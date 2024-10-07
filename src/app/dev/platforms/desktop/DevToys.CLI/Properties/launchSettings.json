@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DevToys.CLI": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}

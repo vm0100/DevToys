@@ -1,0 +1,53 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "DevToys CLI",
+            "preLaunchTask": "Build DevToys CLI",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/app/dev/platforms/desktop/DevToys.CLI/DevToys.CLI.csproj"
+        },
+        {
+            "name": "DevToys MacOS arm64",
+            "preLaunchTask": "Build DevToys MacOS",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/AnyCPU/DevToys.MacOS/net8.0-macos/osx-arm64/DevToys.app/Contents/MacOS/DevToys",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/app/dev/platforms/desktop/DevToys.MacOS",
+            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "DevToys MacOS x64",
+            "preLaunchTask": "Build DevToys MacOS",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/Debug/AnyCPU/DevToys.MacOS/net8.0-macos/osx-x64/DevToys.app/Contents/MacOS/DevToys",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/app/dev/platforms/desktop/DevToys.MacOS",
+            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": "DevToys Windows",
+            "preLaunchTask": "Build DevToys Windows",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/app/dev/platforms/desktop/DevToys.Windows/DevToys.Windows.csproj"
+        },
+        {
+            "name": "DevToys Linux",
+            "preLaunchTask": "Build DevToys Linux",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/app/dev/platforms/desktop/DevToys.Linux/DevToys.Linux.csproj"
+        },
+    ]
+}
